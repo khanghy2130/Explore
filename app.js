@@ -1,4 +1,7 @@
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000,
+	  DBURL = process.env.DBURL || "mongodb://localhost:27017/campgrounds_app";
+
+// local dev DBURL: mongodb://localhost:27017/campgrounds_app
 
 var express    = require("express"),
 	app        = express(),
@@ -16,10 +19,8 @@ var express    = require("express"),
 var campgroundsRoute = require("./routes/campgrounds"),
 	indexRoute = require("./routes/index");
 
-// dev
-// mongoose.connect("mongodb://localhost:27017/campgrounds_app", {useNewUrlParser: true});
-// production https://www.youtube.com/watch?v=iJtOoeM_fS8&feature=youtu.be&t=368
-mongoose.connect("mongodb+srv://dbUser1:0909988855@cluster0-tb0ia.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true}).then(() => {
+
+mongoose.connect(DBURL, {useNewUrlParser: true}).then(() => {
 	console.log("Connected to DB");
 }).catch(err => {
 	console.log("Failed to connect to DB: " + err.message);
