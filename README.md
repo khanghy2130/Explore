@@ -1,2 +1,4 @@
 # yelpcamp
-A Nodejs project from a Udemy course
+The project is live at: http://project01-yelpcamp.herokuapp.com/
+This is an CRUD app where users can create accounts to add 'campgrounds' and comment on these.
+Tools used: Bootstrap, Node.js, Express.js, Passport.js, EJS, Moment.js, MongoDB & mongoose.
