@@ -1,0 +1,45 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #ededed;
+}
+
+/* make contents above footer take full height */
+#body-content {
+	min-height: calc(100vh - 133px);
+}
+
+
+.special-font {
+	font-family: 'Yeon Sung', cursive;
+}
+
+.comments-amount {
+	font-size: 1.4em;
+}
+
+/* INDEX ROUTE */
+
+.index-route-card {
+	transition: 0.2s;
+}
+
+@media (min-width: 990px) { /* lg size (desktop) */
+	.index-route-card:hover {
+		box-shadow: 0px 0px 5px #000;
+	}
+}
+
+/* SHOW ROUTE */
+
+#comment-form {
+	background-color: #ebebeb;
+}
+
+.delete-form {
+	display: inline;
+}

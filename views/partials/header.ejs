@@ -1,0 +1,51 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<title><%= title %></title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css">
+		<link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet">
+		<script src="https://kit.fontawesome.com/4f37f05942.js" crossorigin="anonymous"></script>
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" href="/icon/icon.png">
+		<link rel="stylesheet" href="/css/style.css">
+	</head>
+	<body>
+		<nav class="navbar navbar-dark bg-dark navbar-expand">
+			<div class="container-fluid">
+				<a href="/campgrounds" class="navbar-brand special-font">YelpCamp</a>
+				
+				<!-- collapsable div > list of links -->
+				<div class="collapse navbar-collapse">
+					<ul class="navbar-nav ml-auto">
+						<% if(!user) {%>
+							<li class="nav-item active">
+								<a class="nav-link" href="/login">Login</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/register">Sign Up</a>
+							</li>
+						<% } else { %>
+							<li class="nav-item active">
+								<span class="nav-link">Wecome, <%= user.username %>!</span>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/logout">Logout</a>
+							</li>
+						<% } %>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<br>
+		
+		<div id="body-content">
+			<!-- flash message -->
+			<% if (flashMessage.text && flashMessage.text.length > 0) { %>
+				<div class="container">
+					<div class="alert alert-<%= flashMessage.color %>" role="alert">
+						<strong><%= flashMessage.text %></strong>
+					</div>
+				</div>
+			<% } %>

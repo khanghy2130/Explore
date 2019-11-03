@@ -1,0 +1,123 @@
+<%- include("../partials/header", {title: camp.name}) %>
+
+<div class="container">
+	
+	<div class="d-flex flex-column-reverse flex-lg-row align-items-center align-items-lg-start">
+		<div class="col-lg-3 col-md-9 text-center">
+			<h4 class="lead">Other campgrounds</h4>
+			<% if (suggestedCamps.length === 0) { %>
+				<p class="text-muted">None available.</p>
+			<% } %>
+			
+			<% suggestedCamps.forEach((campObj) => { %>
+			
+				<div class="card my-1 bg-dark">
+					<img class="card-img-top" src="<%= campObj.image %>">
+					<div class="card-body text-center">
+						<h4 class="card-title special-font text-light"><%= campObj.name %></h4>
+						<a class="btn btn-sm btn-secondary w-100 text-light" href="/campgrounds/<%= campObj._id %>">
+							Learn More
+						</a>
+					</div>
+				</div>
+			
+			<% }) %>
+			
+			<a href="/campgrounds" class="btn btn-sm btn-primary my-2">All campgrounds</a>
+		</div>
+		
+		<div class="col-lg-9">
+			<div class="card my-1">
+				<img class="card-img-top img-fluid" src="<%= camp.image %>">
+				<div class="card-body">
+					<div class="caption">
+						<h4 class="card-title special-font"><a href="#"><%= camp.name %></a></h4>
+					</div>
+					
+					<p class="card-subtitle text-muted mb-3">
+						<em>Added by <%= camp.author.username %></em>
+					</p>
+					<p class="card-text"><%= camp.desc %></p>
+					
+					<!-- DELETE AND EDIT for creator -->
+					<% if (user && camp.author.id.equals(user._id)) { %>
+						<div class="d-flex justify-content-end align-items-start">
+							<a href="/campgrounds/<%= camp._id %>/edit"
+							   class="btn btn-sm btn-warning mx-2">Edit</a>
+							<form action="/campgrounds/<%= camp._id %>?_method=DELETE" method=POST 
+								  class="delete-form">
+								<button class="btn btn-sm btn-danger">
+									Delete
+								</button>
+							</form>
+						</div>
+					<% } %>
+				</div>
+			</div>
+			
+			<!-- comment section-->
+			<div class="container bg-light border my-3">
+				<h4 class="header text-center text-light bg-dark rounded-bottom py-2 mx-auto w-50">
+					Comments
+				</h4>
+				
+				<% if (camp.comments.length === 0){ %>
+					<p class="text-muted">No comment yet.</p>
+				<% } %>
+				
+				<% camp.comments.forEach((comment, index) => { %>
+					<div class="row">
+						<!-- first comment has no top border -->
+						<div class="col-md-12 py-2 <%= (index !== 0)? "border-top" : "" %>">
+							
+							<strong><%= comment.author.username %></strong>
+							<span class="float-right text-muted">
+								<%= moment(comment.createdDate).fromNow() %>
+							</span>
+							<p><%= comment.text %></p>
+							
+							<!-- if is creator of this comment -->
+							<% if (user && comment.author.id.equals(user._id)) { %>
+							<div class="d-flex justify-content-end">
+								<form action="/campgrounds/<%= camp._id %>/comments/<%= comment._id %>?_method=DELETE" method=POST class="delete-form">
+									<button class="btn btn-sm btn-danger">
+										Delete
+									</button>
+								</form>
+							</div>
+							<% } %>
+							
+						</div>
+					</div>
+				<% }); %>
+				
+				<!-- comment form -->
+				<div id="comment-form" class="border my-3 p-3">
+					<% if(user) {%>
+						<form action="/campgrounds/<%= camp._id %>/comments" method="POST">
+							<input type="hidden" name="author" value="<%= user.username %>" />
+							<div class="form-group">
+								<label>Comment as <strong><%= user.username %></strong></label>
+								<textarea class="form-control" placeholder="Comment" name="text" required></textarea>
+							</div>
+							<div class="text-center">
+								<button class="btn btn-lg btn-primary shadow">
+									Submit
+								</button>
+							</div>
+						</form>
+					<% } else { %>
+						<div class="text-center">
+							<a href="/login" class="btn btn-primary">Login to comment</a>
+						</div>
+					<% } %>
+				</div>
+			</div>
+			<!-- end of comment section -->
+		</div>
+	</div>
+
+	
+	
+</div>
+<% include ../partials/footer %>
