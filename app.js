@@ -1,3 +1,5 @@
+const PORT = process.env.PORT || 3000;
+
 var express    = require("express"),
 	app        = express(),
 	bodyParser = require("body-parser"),
@@ -65,6 +67,6 @@ app.get("/*", (req, res) => {
 	res.redirect("/campgrounds");
 });
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
 	console.log("Yelpcamp server started.");
 });
