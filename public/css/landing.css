@@ -12,17 +12,21 @@ body {
 	z-index: 1;
 	position: relative; /* required to use z-index */
 	text-align: center;
-	padding-top: 40vh;
+	padding-top: 35vh;
 }
 
 #landing-header h1 {
-  	color: #fefefe;
+  color: #fefefe;
 	text-shadow: 2px 2px 5px #000;
 	font-family: 'Yeon Sung', cursive;
 }
 
 a {
+  color: #fefefe;
 	text-shadow: 2px 2px 5px #000;
+}
+a:visited {
+  color: #fefefe;
 }
 
 .slideshow { 
@@ -52,18 +56,18 @@ a {
 }
 
 .slideshow li:nth-child(1) { 
-  background-image: url(http://i.imgur.com/2LSMCmJ.jpg); 
+  background-image: url(/images/img1.jpg); 
 }
 .slideshow li:nth-child(2) { 
-  background-image: url(http://i.imgur.com/emvhOnb.jpg);
+  background-image: url(/images/img2.jpg);
   animation-delay: 10s; 
 }
 .slideshow li:nth-child(3) { 
-  background-image: url(http://i.imgur.com/K3mPv14.jpg);
+  background-image: url(/images/img3.jpg);
   animation-delay: 20s; 
 }
 .slideshow li:nth-child(4) { 
-  background-image: url(http://i.imgur.com/TVGe0Ef.jpg);
+  background-image: url(/images/img4.jpg);
   animation-delay: 30s; 
 }
 

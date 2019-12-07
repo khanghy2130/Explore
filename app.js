@@ -1,7 +1,6 @@
+// environment variables || local
 const PORT = process.env.PORT || 3000,
-	  DBURL = process.env.DBURL || "mongodb://localhost:27017/campgrounds_app";
-
-// local dev DBURL: mongodb://localhost:27017/campgrounds_app
+	  DBURL = process.env.DBURL || "mongodb://localhost:27017/explore_app";
 
 var express    = require("express"),
 	app        = express(),
