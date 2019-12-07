@@ -1,4 +1,4 @@
-var Campground = require("../models/campground"),
+var Post = require("../models/post"),
 	Comment    = require("../models/comment");
 
 module.exports = {
@@ -15,22 +15,22 @@ module.exports = {
 		res.redirect("/login");
 	},
 	
-	// check if is creator of this campground
-	checkCampgroundOwnership : function (req, res, next){
+	// check if is creator of this post
+	checkPostOwnership : function (req, res, next){
 		if (req.isAuthenticated()){
-			// find the campground that comes with the req
-			Campground.findById(req.params.id, (err, foundCampground) => {
+			// find the post that comes with the req
+			Post.findById(req.params.id, (err, foundPost) => {
 				// check error and if the found one is null
-				if (err || !foundCampground) {
+				if (err || !foundPost) {
 					req.flash("messageColor", "danger");
-					req.flash("messageText", "Campground not found");
-					return res.redirect("/campgrounds");
+					req.flash("messageText", "Post not found");
+					return res.redirect("/posts");
 				} 
 				// match owner id?
-				else if (!foundCampground.author.id.equals(req.user._id)){
+				else if (!foundPost.author.id.equals(req.user._id)){
 					req.flash("messageColor", "warning");
 					req.flash("messageText", "You need permission to proceed.");
-					return res.redirect("/campgrounds");
+					return res.redirect("/posts");
 				}
 				
 				// no error?

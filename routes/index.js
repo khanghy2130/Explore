@@ -21,7 +21,7 @@ router.get("/login", (req, res) => {
 		if (req.query.status === "succeeded"){
 			req.flash("messageColor", "success");
 			req.flash("messageText", "You have been logged in.");
-			return res.redirect("/campgrounds");
+			return res.redirect("/posts");
 		} else if (req.query.status === "failed"){
 			req.flash("messageColor", "danger");
 			req.flash("messageText", "Failed to log in, please retry.");
@@ -47,7 +47,7 @@ router.post("/register", (req, res) => {
 		
 		passport.authenticate("local")(req, res, function() {
 			console.log("Logged in!");
-			res.redirect("/campgrounds");
+			res.redirect("/posts");
 		});
 	});
 });
@@ -65,7 +65,7 @@ router.get("/logout", (req, res) => {
 	req.logout();
 	req.flash("messageColor", "info");
 	req.flash("messageText", "You've been logged out.");
-	res.redirect("/campgrounds");
+	res.redirect("/posts");
 });
 
 

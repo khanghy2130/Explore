@@ -1,43 +1,43 @@
-<%- include("../partials/header", {title: "Campgrounds Page"}) %>
+<%- include("../partials/header", {title: "Posts Page"}) %>
 
 <div class="container">
 	<header class="jumbotron bg-dark text-light">
 		<div class="container">
 			<h1 class="special-font">
-				Explore the campgrounds!
+				Welcome to the right place, explorer.
 			</h1>
 			<p>
-				View our hand-picked campgrounds from all over the world!
+				Embrace the beauty of the wild, untouched nature. Don't forget to share your own discoveries.
 			</p>
 			<p>
-				<a href="/campgrounds/new" class="btn btn-lg btn-primary">
-					<i class="fas fa-plus"></i> Add new campground
+				<a href="/posts/new" class="btn btn-lg btn-primary special-font">
+					<i class="fas fa-plus"></i> Make new post
 				</a>
 			</p>
 		</div>
 	</header>
 	
 	<div class="row pb-5">
-		<!-- looping through all camps -->
-		<% campgrounds.forEach((camp) => { %>
+		<!-- looping through all posts -->
+		<% posts.forEach((post) => { %>
 
 			<div class="col-lg-3 col-md-6">
 				<div class="card my-1 index-route-card">
-					<img class="card-img-top" src="<%= camp.image %>">
+					<img class="card-img-top" src="<%= post.image %>">
 					<div class="card-body">
-						<h4 class="card-title special-font"><%= camp.name %></h4>
+						<h4 class="card-title special-font"><%= post.name %></h4>
 						<p class="card-text">
-							<%= camp.desc.substring(0, 100) + ((camp.desc.length > 100) ? "..." : "") %>
+							<%= post.desc.substring(0, 100) + ((post.desc.length > 100) ? "..." : "") %>
 						</p>
 						<div class="d-flex justify-content-between align-items-center">
-							<a class="btn btn-dark" href="/campgrounds/<%= camp._id %>">
+							<a class="btn btn-dark special-font" href="/posts/<%= post._id %>">
 								Learn More
 							</a>
 							
 							<!-- number of comments -->
 							<span class="comments-amount">
 								<i class="far fa-comment fa-flip-horizontal"></i>
-								 <%= camp.comments.length %>
+								 <%= post.comments.length %>
 							</span>
 						</div>
 					</div>

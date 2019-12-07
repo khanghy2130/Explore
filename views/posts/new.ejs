@@ -1,14 +1,14 @@
-<%- include("../partials/header", {title: "Adding Campground"}) %>
+<%- include("../partials/header", {title: "Making A Post"}) %>
 
 <div class="container">
-	<h1 class="text-center mb-4 special-font">Add new campground</h1>
+	<h1 class="text-center mb-4 special-font">Make new post</h1>
 	
 	<!-- control size and position -->
 	<div class="row d-flex justify-content-center">
 		<div class="col-lg-6">
-			<form action="/campgrounds" method="POST">
+			<form action="/posts" method="POST">
 				<div class="form-group">
-					<input class="form-control" type="text" name="name" placeholder="Campground name">
+					<input class="form-control" type="text" name="name" placeholder="Post title">
 				</div>
 				<div class="form-group">
 					<input class="form-control" type="text" name="image" placeholder="Image URL">
@@ -21,7 +21,7 @@
 				</button>
 			</form>
 
-			<a href="/campgrounds" class="btn btn-sm btn-danger mt-3">Go Back</a>
+			<a href="/posts" class="btn btn-sm btn-danger mt-3">Go Back</a>
 		</div>
 	</div>
 </div>

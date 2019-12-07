@@ -11,11 +11,11 @@ var express    = require("express"),
 	methodOverride = require("method-override"),
 	flash = require("connect-flash"),
 	
-	Campground = require("./models/campground"),
+	Post = require("./models/post"),
 	Comment    = require("./models/comment"),
 	User       = require("./models/user");
 
-var campgroundsRoute = require("./routes/campgrounds"),
+var postsRoute = require("./routes/posts"),
 	indexRoute = require("./routes/index");
 
 
@@ -54,7 +54,7 @@ app.use((req, res, next) => {
 });
 
 // use routes
-app.use("/campgrounds", campgroundsRoute);
+app.use("/posts", postsRoute);
 app.use(indexRoute);
 
 
@@ -64,9 +64,9 @@ app.use(indexRoute);
 app.get("/*", (req, res) => {
 	req.flash("messageColor", "danger");
 	req.flash("messageText", "The requested page doesn't exist.");
-	res.redirect("/campgrounds");
+	res.redirect("/posts");
 });
 
 app.listen(PORT, () => {
-	console.log("Yelpcamp server started.");
+	console.log("The server has started.");
 });

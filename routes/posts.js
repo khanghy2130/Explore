@@ -1,5 +1,5 @@
 /*
-	This route file handles both campgrounds and comments
+	This route file handles both posts and comments
 */
 
 var express = require("express"),
@@ -7,70 +7,70 @@ var express = require("express"),
 	router = express.Router({mergeParams: true}),
 	middleware = require("../middleware"),
 	
-	Campground = require("../models/campground"),
+	Post = require("../models/post"),
 	Comment    = require("../models/comment");
 
 
 // INDEX PAGE
 router.get("/", (req, res) => {
-	Campground.find({}, (err, results) => {
+	Post.find({}, (err, results) => {
 		if (err){
 			console.log("ERROR!!\n" + err);
 		} else {
-			res.render("campgrounds/index", {campgrounds: results,});
+			res.render("posts/index", {posts: results,});
 		}
 	});
 });
 
-// ADD CAMPGROUND FORM
+// ADD POST FORM
 router.get("/new", middleware.isLoggedIn, (req, res) => {
-	res.render("campgrounds/new");
+	res.render("posts/new");
 });
 
-// handle creating new campgrounds
+// handle creating new posts
 router.post("/", middleware.isLoggedIn, (req, res) => {
 	// req.body fits the schema so pass itself in. With added author object below
 	req.body.author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	Campground.create(req.body, (err, createdCampground) => {
+	Post.create(req.body, (err, createdPost) => {
 		if (err){
 			console.log("ERROR!!\n" + err);
 			req.flash("messageColor", "danger");
-			req.flash("messageText", "Failed to create campground.");
+			req.flash("messageText", "Failed to create post.");
 		} else {
-			console.log("ADDED CAPGROUND '" + createdCampground.name + "'");
-			console.log(createdCampground);
+			console.log("ADDED CAPGROUND '" + createdPost.name + "'");
+			console.log(createdPost);
 			
 			req.flash("messageColor", "success");
-			req.flash("messageText", "Campground has been created.");
+			req.flash("messageText", "Post has been created.");
 		}
 	});
-	res.redirect("/campgrounds");
+	res.redirect("/posts");
 });
 
 
 // SHOW PAGE
 router.get("/:id", (req, res) => {
-	// find the campground with ID
-	Campground.findById(req.params.id).populate("comments").exec((err, foundCampground) => {
-		if (err || !foundCampground){
+	// find the post with ID
+	Post.findById(req.params.id).populate("comments").exec((err, foundPost) => {
+		if (err || !foundPost){
 			console.log("ERROR!!\n" + err);
 			res.redirect("/doesntexist");
 		} else {
-			Campground.find().distinct("_id", (err, ids) => {
+			Post.find().distinct("_id", (err, ids) => {
 				if (err) console.log(err);
 				else {
-					var pickedIds = [foundCampground._id];
-					// if has 3 other camps 
+					var pickedIds = [foundPost._id];
+					// if has 3 other posts 
 					if (ids.length <= 4) {
 						pickedIds = ids;
 					}
 					// if has more than 3 others => pick 3 random (not repeat)
 					else {
 						for (let i=0; i < 3; i++){
-							var newId = foundCampground._id;
+							var newId = foundPost._id;
 							
 							// make sure no repeat
 							do {
@@ -84,18 +84,18 @@ router.get("/:id", (req, res) => {
 						}
 					}
 					
-					// take out current camp
+					// take out current post
 					pickedIds.shift();
 					
-					// fetch the camp objects for suggestedCamps array
-					Campground.find({
+					// fetch the post objects for suggestedPosts array
+					Post.find({
 						'_id': { $in: pickedIds}
-					}, function(err, campObjects){
+					}, function(err, postObjects){
 						if (err) console.log(err);
 						else {
-							return res.render("campgrounds/show", {
-								camp: foundCampground, 
-								suggestedCamps: campObjects,  
+							return res.render("posts/show", {
+								post: foundPost, 
+								suggestedPosts: postObjects,  
 								moment: moment
 							});
 						}
@@ -109,47 +109,47 @@ router.get("/:id", (req, res) => {
 });
 
 // edit form (owner only)
-router.get("/:id/edit", middleware.checkCampgroundOwnership, (req, res) => {
-	Campground.findById(req.params.id, (err, foundCampground) => {
+router.get("/:id/edit", middleware.checkPostOwnership, (req, res) => {
+	Post.findById(req.params.id, (err, foundPost) => {
 		if (err) {
 			console.log(err);
-			res.redirect("/campgrounds");
+			res.redirect("/posts");
 		} else {
-			res.render("campgrounds/edit", {camp: foundCampground});
+			res.render("posts/edit", {post: foundPost});
 		}
 	});
 });
 
 // handle edit request (update) (owner only)
-router.put("/:id", middleware.checkCampgroundOwnership, (req, res) => {
-	// campground object in the request is req.body.campground
-	Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, foundCampground) => {
+router.put("/:id", middleware.checkPostOwnership, (req, res) => {
+	// post object in the request is req.body.post
+	Post.findByIdAndUpdate(req.params.id, req.body.post, (err, foundPost) => {
 		if (err){
 			req.flash("messageColor", "danger");
-			req.flash("messageText", "Failed to update campground.");
-			res.redirect("/campgrounds");
+			req.flash("messageText", "Failed to update post.");
+			res.redirect("/posts");
 		} else {
 			req.flash("messageColor", "success");
-			req.flash("messageText", "Campground has been updated.");
-			res.redirect("/campgrounds/" + req.params.id);
+			req.flash("messageText", "Post has been updated.");
+			res.redirect("/posts/" + req.params.id);
 		}
 	});
 });
 
-// handle delete campground request (owner only)
-router.delete("/:id", middleware.checkCampgroundOwnership, (req, res) => {
-	Campground.findById(req.params.id, (err, foundCampground) => {
+// handle delete post request (owner only)
+router.delete("/:id", middleware.checkPostOwnership, (req, res) => {
+	Post.findById(req.params.id, (err, foundPost) => {
 		if (err){
 			req.flash("messageColor", "danger");
-			req.flash("messageText", "Failed to remove campground.");
-			res.redirect("/campgrounds");
+			req.flash("messageText", "Failed to remove post.");
+			res.redirect("/posts");
 		} else {
 			// this also removes all associated comments thanks for the hook in its model
-			foundCampground.remove();
+			foundPost.remove();
 			
 			req.flash("messageColor", "success");
-			req.flash("messageText", "Campground has been removed.");
-			res.redirect("/campgrounds");
+			req.flash("messageText", "Post has been removed.");
+			res.redirect("/posts");
 		}
 	});
 });
@@ -159,13 +159,13 @@ router.delete("/:id", middleware.checkCampgroundOwnership, (req, res) => {
 
 // handles creating new comment
 router.post("/:id/comments", middleware.isLoggedIn, (req, res) => {
-	Campground.findById(req.params.id, (err, foundCampground) => {
+	Post.findById(req.params.id, (err, foundPost) => {
 		Comment.create({
 			author: {
 				id: req.user._id,
 				username: req.user.username
 			},
-			campgroundID: foundCampground._id,
+			postID: foundPost._id,
 			text: req.body.text,
 			createdDate: moment().format()
 		}, (err, createdComment) => {
@@ -174,16 +174,16 @@ router.post("/:id/comments", middleware.isLoggedIn, (req, res) => {
 				req.flash("messageText", "Failed to create comment.");
 				console.log("ERROR!!\n" + err);
 			} else {
-				console.log("Added a comment on " + foundCampground.name);
+				console.log("Added a comment on " + foundPost.name);
 				console.log(createdComment);
-				// saving for campground object
-				foundCampground.comments.push(createdComment);
-				foundCampground.save();
+				// saving for post object
+				foundPost.comments.push(createdComment);
+				foundPost.save();
 				
 				req.flash("messageColor", "info");
 				req.flash("messageText", "Comment has been created.");
 			}
-			res.redirect("/campgrounds/" + req.params.id); // redirect here whether error or not
+			res.redirect("/posts/" + req.params.id); // redirect here whether error or not
 		});
 	});
 });
@@ -197,9 +197,9 @@ router.delete("/:id/comments/:comment_id", middleware.checkCommentOwnership, (re
 			req.flash("messageText", "Failed to remove comment.");
 			return res.redirect("back");
 		} else {
-			// remove its id in its campground
-			Campground.findByIdAndUpdate(
-				foundComment.campgroundID,
+			// remove its id in its post
+			Post.findByIdAndUpdate(
+				foundComment.postID,
 				{ $pull: { comments : foundComment._id } },
 				(err, obj) => {
 					if (err){
@@ -213,7 +213,7 @@ router.delete("/:id/comments/:comment_id", middleware.checkCommentOwnership, (re
 			foundComment.remove();
 			req.flash("messageColor", "info");
 			req.flash("messageText", "Comment has been removed.");
-			res.redirect("/campgrounds/" + req.params.id);
+			res.redirect("/posts/" + req.params.id);
 		}
 		
 		
