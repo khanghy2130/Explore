@@ -1,7 +1,12 @@
-# yelpcamp
-A project from [The Web Developer Bootcamp](https://www.udemy.com/course/the-web-developer-bootcamp/) course.
+# Explore
 
-The project is live at: http://project01-yelpcamp.herokuapp.com/
+The project is live at: http://project01-explore.herokuapp.com/
 
-This is a CRUD app where users can create accounts to add 'campgrounds' and comment on these.
+This is an app where users can create accounts to make posts and comment on these.
 Tools used: Bootstrap, Node.js, Express.js, Passport.js, EJS, Moment.js, MongoDB & mongoose.
+
+Challenges faced:
+- Setting up responsive layouts.
+- Associating related databases.
+- Setting up a secured authentication.
+- Handling problematic requests.
