@@ -10,3 +10,7 @@ Challenges faced:
 - Associating related databases.
 - Setting up a secured authentication.
 - Handling problematic requests.
+
+![featured image][img1]
+
+[img1]: https://github.com/khanghy2130/final_portfolio/blob/master/project-images/explore.png "featured image"
